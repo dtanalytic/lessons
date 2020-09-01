@@ -8,7 +8,7 @@ SMALL_SIZE = 12
 MEDIUM_SIZE = 14
 BIGGER_SIZE = 18
 
-plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('font', size=MEDIUM_SIZE)          # controls default text sizes
 plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
 plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
 plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
@@ -18,24 +18,41 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 if __name__=='__main__':
     
+    x = np.linspace(120,230,1000)
+    norm = stats.norm(loc=175, scale=10)
+    plt.plot(x,norm.pdf(x),label = 'график распределения роста мужчин' )
+    plt.plot([],label = '\u03FB - среднее значение(175)\n\u03C3 - стандартное отклонение(10)',alpha=0)
+    vlines_x = [155,165,175,185,195]
+    vlines_end = [norm.pdf(item) for item in vlines_x]
+    plt.vlines(vlines_x,0,vlines_end,linestyle='dashed',color='grey')
     
-    params = [(5,3),(20,12),(1000,600)]
     
-    x = np.linspace(-1,2,1000)
-    # uni = stats.uniform(0,1)
-    uni = stats.beta(1,2)
-    plt.plot(x,uni.pdf(x))
+    plt.hlines(0.002,155,175,linestyle='dotted',color='black')
+    plt.text(160, 0.003, '2*\u03C3')
+    plt.hlines(0.004,165,175,linestyle='dotted',color = 'black')
+    plt.text(170,0.005,'\u03C3')
+    plt.text(175,0,'\u03FB')
+    plt.legend()
+    # norm.pdf
+    
+    # params = [(5,3),(20,12),(1000,600)]
+    
+    # x = np.linspace(-1,2,1000)
+    # # uni = stats.uniform(0,1)
+    # uni = stats.beta(1,1)
+    # n_uni = stats.beta(4,6)
+    # plt.plot(x,n_uni.pdf(x))
     
     
-    fig,ax=plt.subplots(3,1)
-    n=5; k=3
-    for i,pars in enumerate(params):
+    # fig,ax=plt.subplots(3,1)
+    # n=5; k=3
+    # for i,pars in enumerate(params):
         
-        apost = stats.beta(1+pars[1],pars[0]-pars[1]+1)
-        ax[i].plot(x,apost.pdf(x))
-        ax[i].yaxis.set_major_locator(plt.NullLocator())
-        ax[i].set_ylabel(f'{pars[0]} подбрасываний')
-    ax[2].set_xlabel(f'наблюдаемая вероятность выпадения 0.6 во всех случаях')
+    #     apost = stats.beta(4+pars[1],pars[0]-pars[1]+6)
+    #     ax[i].plot(x,apost.pdf(x))
+    #     ax[i].yaxis.set_major_locator(plt.NullLocator())
+    #     ax[i].set_ylabel(f'{pars[0]} подбрасываний')
+    # ax[2].set_xlabel(f'наблюдаемая вероятность выпадения 0.6 во всех случаях')
     
     # n=1000;k=600
     # apost = stats.beta(1+k,n-k+2)
