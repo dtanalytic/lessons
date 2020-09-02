@@ -18,21 +18,49 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 if __name__=='__main__':
     
-    x = np.linspace(120,230,1000)
-    norm = stats.norm(loc=175, scale=10)
-    plt.plot(x,norm.pdf(x),label = 'график распределения роста мужчин' )
-    plt.plot([],label = '\u03FB - среднее значение(175)\n\u03C3 - стандартное отклонение(10)',alpha=0)
-    vlines_x = [155,165,175,185,195]
-    vlines_end = [norm.pdf(item) for item in vlines_x]
-    plt.vlines(vlines_x,0,vlines_end,linestyle='dashed',color='grey')
+    
+    #  степень уверенности в вероятности с количеством экспериментов
+    n = [100,1000,10000]
+    np.random.seed(1)
+    p = 0.01
+    fig, ax = plt.subplots(len(n),1, sharex=True)
+    
+    for i,num in enumerate(n):        
+        
+            x = np.linspace(0,1)
+            s_kol = stats.binom(n=num, p=p).rvs(10000)     
+            
+            sns.kdeplot(s_kol/num,ax= ax[i])
+            ax[i].set_ylabel(f'{num} испытаний')
+            ax[i].yaxis.set_major_locator(plt.NullLocator())
+            
+    
+    # x = np.linspace(120,230,1000)
+    # norm = stats.norm(loc=175, scale=10)
+    # plt.plot(x,norm.pdf(x),label = 'график распределения роста мужчин' )
+    # plt.plot([],label = '\u03FB - среднее значение(175)\n\u03C3 - стандартное отклонение(10)',alpha=0)
+    # vlines_x = [155,165,175,185,195]
+    # vlines_end = [norm.pdf(item) for item in vlines_x]
+    # plt.vlines(vlines_x,-0.004,vlines_end,linestyle='dashed',color='black')
+    
+    # plt.hlines(-0.001,165,185,linestyle='dotted',color='grey')
+    # plt.text(168,0,'68.2%', color='black')
+    
+    # plt.hlines(-0.003,155,195,linestyle='dotted',color='grey')
+    # plt.text(168,-0.005,'95.4%', color='black')
+    
+    # plt.hlines(0.002,155,175,linestyle='dotted',color='black')
+    # plt.text(160, 0.003, '2*\u03C3')
+    # plt.hlines(0.004,165,175,linestyle='dotted',color = 'black')
+    # plt.text(170,0.005,'\u03C3')
+    # plt.text(175,0.01,'\u03FB')
+    # plt.legend()
     
     
-    plt.hlines(0.002,155,175,linestyle='dotted',color='black')
-    plt.text(160, 0.003, '2*\u03C3')
-    plt.hlines(0.004,165,175,linestyle='dotted',color = 'black')
-    plt.text(170,0.005,'\u03C3')
-    plt.text(175,0,'\u03FB')
-    plt.legend()
+
+    
+    
+    #  апостериорная вероятность
     # norm.pdf
     
     # params = [(5,3),(20,12),(1000,600)]
