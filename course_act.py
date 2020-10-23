@@ -20,6 +20,10 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 if __name__=='__main__':
     
     act = pd.read_csv('../data/event_data_train.csv')
+    act.groupby('')
     
-    len(act.user_id.unique())
-        
+    len(act.action.unique())
+    
+    last_time = act['timestamp'].groupby(act['user_id']).max().reset_index()
+    # last_time.astype(datetime)
+    
